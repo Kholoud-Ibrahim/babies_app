@@ -188,10 +188,10 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
                       </div>
                     </div>
 
-                    {tip.relatedItem && (
+                    {tip.related_item && (
                       <div className="tip-related">
                         <ShoppingBag size={14} />
-                        Re: {tip.relatedItem}
+                        Re: {tip.related_item}
                       </div>
                     )}
 

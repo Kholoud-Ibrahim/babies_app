@@ -4,8 +4,8 @@ import { Gift, Heart, Baby, Lightbulb, Sparkles } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import './Home.css'
 
-// Set your due date here (36 weeks from 17 weeks = 19 weeks from Jan 26, 2026)
-const DUE_DATE = new Date('2026-06-08')
+// Set your due date here
+const DUE_DATE = new Date('2026-07-04')
 
 function Home() {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
@@ -172,7 +172,7 @@ function Home() {
                 <span className="countdown-label">Seconds</span>
               </div>
             </div>
-            <p className="countdown-date">Expected: June 8, 2026</p>
+            <p className="countdown-date">Expected: July 4, 2026</p>
           </div>
         </motion.section>
       )}
@@ -214,7 +214,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Quote Section */}
+      {/* Quote Section - Mum & Dad */}
       <motion.section 
         className="quote-section"
         initial={{ opacity: 0 }}
@@ -222,13 +222,55 @@ function Home() {
         viewport={{ once: true }}
       >
         <div className="quote-content">
+          <div className="parents-photo">
+            <img src="/images/mum-and-dad.jpeg" alt="Mum and Dad" />
+          </div>
           <span className="quote-mark">"</span>
           <blockquote>
             Layla and Leen, you are coming into a family<br />
             who will always love you unconditionally, celebrate you,<br />
             protect you, and make sure you are always safe.
           </blockquote>
-          <span className="quote-author">— Mo and Khokha 💕</span>
+          <span className="quote-author">— Your Mum & Dad 💕</span>
+        </div>
+      </motion.section>
+
+      {/* Quote Section - Dogs (Pancake & Batata) */}
+      <motion.section 
+        className="quote-section dogs-section"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
+        <div className="dogs-quotes-container">
+          {/* Pancake */}
+          <div className="dog-quote-card">
+            <div className="dog-photo pancake-photo">
+              <img src="/images/pancake.jpeg" alt="Pancake" />
+            </div>
+            <blockquote>
+              Layla and Leen, I am over the moon to have sisters
+              to play with me and throw the ball to me all day.
+              I will always play with you and bring you so much joy,
+              and we will always be best friends.
+            </blockquote>
+            <span className="quote-author">— Pancake 🐕</span>
+          </div>
+
+          {/* Batata */}
+          <div className="dog-quote-card">
+            <div className="dog-photo batata-photo">
+              <img src="/images/batata.jpeg" alt="Batata" />
+            </div>
+            <blockquote>
+              Hi girls,
+              I'm not as playful as Pancake — I prefer chilling and cuddling more — 
+              but I promise I'll give you endless love, and you'll always find me 
+              to be the most loving companion.
+              Love the family very much.
+            </blockquote>
+            <span className="quote-author">— Batata 🐕</span>
+          </div>
         </div>
       </motion.section>
     </div>

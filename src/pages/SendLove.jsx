@@ -258,7 +258,7 @@ function SendLove({ cards, addCard, deleteCard }) {
                         {card.message}
                       </p>
                       <p className="received-sender" style={{ color: card.template.textColor }}>
-                        — {card.senderName}
+                        — {card.sender_name}
                       </p>
                       <span className="received-date">{formatDate(card.date)}</span>
                     </motion.div>

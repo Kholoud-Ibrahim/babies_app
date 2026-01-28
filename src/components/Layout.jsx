@@ -7,7 +7,7 @@ const navItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/registry', label: 'Registry', icon: Gift },
   { path: '/send-love', label: 'Send Love', icon: Heart },
-  { path: '/updates', label: 'Updates', icon: Baby },
+  { path: '/updates', label: 'Journey', icon: Baby },
   { path: '/advice', label: 'Advice', icon: Lightbulb },
 ]
 

@@ -209,7 +209,7 @@ function Registry({ items, claimItem }) {
                   {item.claimed && (
                     <div className="claimed-overlay">
                       <Check size={32} />
-                      <span>Claimed by {item.claimedBy}</span>
+                      <span>Claimed by {item.claimed_by}</span>
                     </div>
                   )}
 

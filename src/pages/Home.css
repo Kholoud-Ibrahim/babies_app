@@ -324,13 +324,39 @@
   position: relative;
 }
 
+.parents-photo {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto var(--space-2xl);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid white;
+  box-shadow: var(--shadow-lifted);
+  position: relative;
+}
+
+.parents-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.parents-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 20px rgba(193, 123, 123, 0.1);
+}
+
 .quote-mark {
   font-family: var(--font-display);
   font-size: 8rem;
   color: white;
   opacity: 0.5;
   position: absolute;
-  top: -60px;
+  top: 120px;
   left: -20px;
   line-height: 1;
 }
@@ -346,8 +372,81 @@ blockquote {
 .quote-author {
   display: block;
   margin-top: var(--space-xl);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--rose-deep);
+}
+
+/* Dogs Section */
+.dogs-section {
+  background: linear-gradient(135deg, var(--sage-light), var(--gold-light));
+}
+
+.dogs-quotes-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.dog-quote-card {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+}
+
+.dog-photo {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto var(--space-xl);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid white;
+  box-shadow: var(--shadow-medium);
+}
+
+.dog-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.pancake-photo {
+  border-color: var(--sage);
+}
+
+.pancake-photo img {
+  object-position: center 20%;
+}
+
+.batata-photo {
+  border-color: var(--gold);
+}
+
+.dog-quote-card blockquote {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  margin-bottom: var(--space-lg);
+}
+
+.dog-quote-card .quote-author {
+  color: #5a7d6a;
   font-size: 1rem;
-  color: var(--text-medium);
+}
+
+/* Responsive for dogs section */
+@media (max-width: 768px) {
+  .dogs-quotes-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .dog-photo {
+    width: 130px;
+    height: 130px;
+  }
 }
 
 /* Responsive */
