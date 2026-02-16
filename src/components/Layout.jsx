@@ -28,7 +28,7 @@ function Layout() {
         <div className="nav-container">
           <NavLink to="/" className="nav-logo">
             <span className="logo-icon">⭐</span>
-            <span className="logo-text">Twin Stars</span>
+            <span className="logo-text">Twin Boys</span>
           </NavLink>
 
           <ul className="nav-links">
