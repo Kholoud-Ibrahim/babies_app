@@ -19,11 +19,11 @@
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-lg);
-  background: linear-gradient(135deg, var(--gold-light), var(--rose-light));
+  background: linear-gradient(135deg, var(--gold-light), var(--blue-light));
   border-radius: var(--radius-full);
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--rose-deep);
+  color: var(--blue-deep);
   margin-bottom: var(--space-xl);
 }
 
@@ -33,7 +33,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--rose-deep), var(--gold));
+  background: linear-gradient(135deg, var(--blue-deep), var(--teal));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -91,18 +91,18 @@
   font-size: 1rem;
   font-weight: 600;
   margin-top: var(--space-sm);
-  color: var(--rose-deep);
+  color: var(--blue-deep);
 }
 
 .baby-1 {
-  background: linear-gradient(135deg, #fff5f5, #ffe4e1);
+  background: linear-gradient(135deg, #e8f4f8, #d0ebf5);
   top: 20px;
   left: 30px;
   animation: float-1 4s ease-in-out infinite;
 }
 
 .baby-2 {
-  background: linear-gradient(135deg, #fff9f0, #ffecd2);
+  background: linear-gradient(135deg, #e8f5f3, #d4edeb);
   bottom: 20px;
   right: 30px;
   animation: float-2 4s ease-in-out infinite 0.5s;
@@ -143,7 +143,7 @@
 /* Countdown Section */
 .countdown-section {
   padding: var(--space-3xl) var(--space-lg);
-  background: linear-gradient(135deg, var(--rose-pale), var(--cream));
+  background: linear-gradient(135deg, var(--blue-pale), var(--cream));
 }
 
 .countdown-container {
@@ -155,7 +155,7 @@
 .countdown-title {
   font-family: var(--font-display);
   font-size: 1.8rem;
-  color: var(--rose-deep);
+  color: var(--blue-deep);
   margin-bottom: var(--space-2xl);
 }
 
@@ -180,7 +180,7 @@
   font-family: var(--font-display);
   font-size: 3rem;
   font-weight: 700;
-  color: var(--rose-deep);
+  color: var(--blue-deep);
   line-height: 1;
 }
 
@@ -195,7 +195,7 @@
 
 .countdown-separator {
   font-size: 2rem;
-  color: var(--rose-medium);
+  color: var(--blue-medium);
   font-weight: 300;
 }
 
@@ -237,16 +237,16 @@
   transition: height var(--transition-normal);
 }
 
-.feature-rose::before {
-  background: linear-gradient(90deg, var(--rose-deep), var(--rose-medium));
+.feature-blue::before {
+  background: linear-gradient(90deg, var(--blue-deep), var(--blue-medium));
 }
 
 .feature-gold::before {
   background: linear-gradient(90deg, var(--gold), #e8c068);
 }
 
-.feature-sage::before {
-  background: linear-gradient(90deg, var(--sage), #b8c5b0);
+.feature-teal::before {
+  background: linear-gradient(90deg, var(--teal), #7dc4bf);
 }
 
 .feature-card:hover {
@@ -268,9 +268,9 @@
   margin-bottom: var(--space-lg);
 }
 
-.feature-rose .feature-icon {
-  background: var(--rose-light);
-  color: var(--rose-deep);
+.feature-blue .feature-icon {
+  background: var(--blue-light);
+  color: var(--blue-deep);
 }
 
 .feature-gold .feature-icon {
@@ -278,9 +278,9 @@
   color: var(--gold);
 }
 
-.feature-sage .feature-icon {
-  background: var(--sage-light);
-  color: var(--sage);
+.feature-teal .feature-icon {
+  background: var(--teal-light);
+  color: var(--teal);
 }
 
 .feature-card h3 {
@@ -303,7 +303,7 @@
   opacity: 0;
   transform: translateX(-10px);
   transition: all var(--transition-normal);
-  color: var(--rose-deep);
+  color: var(--blue-deep);
 }
 
 .feature-card:hover .feature-arrow {
@@ -314,7 +314,7 @@
 /* Quote Section */
 .quote-section {
   padding: var(--space-3xl) var(--space-lg);
-  background: linear-gradient(135deg, var(--rose-light), var(--gold-light));
+  background: linear-gradient(135deg, var(--blue-light), var(--gold-light));
 }
 
 .quote-content {
@@ -347,7 +347,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  box-shadow: inset 0 0 20px rgba(193, 123, 123, 0.1);
+  box-shadow: inset 0 0 20px rgba(59, 126, 161, 0.1);
 }
 
 .quote-mark {
@@ -374,12 +374,12 @@ blockquote {
   margin-top: var(--space-xl);
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--rose-deep);
+  color: var(--blue-deep);
 }
 
 /* Dogs Section */
 .dogs-section {
-  background: linear-gradient(135deg, var(--sage-light), var(--gold-light));
+  background: linear-gradient(135deg, var(--teal-light), var(--gold-light));
 }
 
 .dogs-quotes-container {
@@ -415,7 +415,7 @@ blockquote {
 }
 
 .pancake-photo {
-  border-color: var(--sage);
+  border-color: var(--teal);
 }
 
 .pancake-photo img {
@@ -432,7 +432,7 @@ blockquote {
 }
 
 .dog-quote-card .quote-author {
-  color: #5a7d6a;
+  color: #3b8a83;
   font-size: 1rem;
 }
 
@@ -504,4 +504,3 @@ blockquote {
     width: 100%;
   }
 }
-

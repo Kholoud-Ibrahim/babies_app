@@ -27,8 +27,8 @@ function Layout() {
       <nav className="nav">
         <div className="nav-container">
           <NavLink to="/" className="nav-logo">
-            <span className="logo-icon">🌸</span>
-            <span className="logo-text">Twin Blossoms</span>
+            <span className="logo-icon">⭐</span>
+            <span className="logo-text">Twin Stars</span>
           </NavLink>
 
           <ul className="nav-links">
@@ -79,7 +79,7 @@ function Layout() {
       {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
-          <p>Made with 💕 for our little blossoms</p>
+          <p>Made with 💙 for our little champions</p>
           <p className="footer-subtitle">Coming Soon • 2026</p>
         </div>
       </footer>
