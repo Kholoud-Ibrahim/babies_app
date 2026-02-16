@@ -1,18 +1,26 @@
 :root {
-  /* Warm, elegant color palette */
-  --rose-deep: #c17b7b;
-  --rose-medium: #d4a5a5;
-  --rose-light: #f5e6e0;
-  --rose-pale: #faf5f3;
-  --cream: #fffbf7;
+  /* Modern blue/teal color palette for boys */
+  --blue-deep: #3b7ea1;
+  --blue-medium: #6ba3be;
+  --blue-light: #d8eef6;
+  --blue-pale: #f0f8fb;
+  --cream: #f8fcfd;
   --gold: #d4a853;
   --gold-light: #f0e4c8;
-  --sage: #a8b5a0;
-  --sage-light: #dce5d8;
+  --teal: #5fa8a3;
+  --teal-light: #d4edeb;
   --charcoal: #3d3d3d;
   --text-dark: #2c2c2c;
   --text-medium: #5a5a5a;
   --text-light: #8a8a8a;
+  
+  /* Legacy names for compatibility */
+  --rose-deep: var(--blue-deep);
+  --rose-medium: var(--blue-medium);
+  --rose-light: var(--blue-light);
+  --rose-pale: var(--blue-pale);
+  --sage: var(--teal);
+  --sage-light: var(--teal-light);
   
   /* Typography */
   --font-display: 'Cormorant Garamond', Georgia, serif;
@@ -39,9 +47,9 @@
   --radius-full: 9999px;
   
   /* Shadows */
-  --shadow-soft: 0 4px 20px rgba(193, 123, 123, 0.1);
-  --shadow-medium: 0 8px 30px rgba(193, 123, 123, 0.15);
-  --shadow-lifted: 0 12px 40px rgba(193, 123, 123, 0.2);
+  --shadow-soft: 0 4px 20px rgba(59, 126, 161, 0.1);
+  --shadow-medium: 0 8px 30px rgba(59, 126, 161, 0.15);
+  --shadow-lifted: 0 12px 40px rgba(59, 126, 161, 0.2);
 }
 
 * {
@@ -116,27 +124,27 @@ img {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--rose-pale);
+  background: var(--blue-pale);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--rose-medium);
+  background: var(--blue-medium);
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--rose-deep);
+  background: var(--blue-deep);
 }
 
 /* Selection */
 ::selection {
-  background: var(--rose-medium);
+  background: var(--blue-medium);
   color: white;
 }
 
 /* Focus styles */
 :focus-visible {
-  outline: 2px solid var(--rose-deep);
+  outline: 2px solid var(--blue-deep);
   outline-offset: 2px;
 }
 
@@ -159,4 +167,3 @@ img {
   white-space: nowrap;
   border-width: 0;
 }
-

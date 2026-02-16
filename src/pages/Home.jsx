@@ -37,7 +37,7 @@ function Home() {
       title: "Gift Registry",
       description: "Browse our wishlist and help us prepare for the twins",
       link: "/registry",
-      color: "rose"
+      color: "blue"
     },
     {
       icon: Heart,
@@ -51,14 +51,14 @@ function Home() {
       title: "Baby Updates",
       description: "Stay updated on our journey to parenthood",
       link: "/updates",
-      color: "sage"
+      color: "teal"
     },
     {
       icon: Lightbulb,
       title: "Advice & Tips",
       description: "Share your wisdom and recommendations with us",
       link: "/advice",
-      color: "rose"
+      color: "blue"
     }
   ]
 
@@ -94,14 +94,14 @@ function Home() {
           
           <h1 className="hero-title">
             Welcome to Our<br />
-            <span className="gradient-text">Twin Girls'</span><br />
+            <span className="gradient-text">Twin Boys'</span><br />
             Journey
           </h1>
           
           <p className="hero-subtitle">
-            We're so excited to share this magical journey with you. 
-            Our two little blossoms are on their way, and we can't wait 
-            for you to be part of their story. 🌸🌸
+            We're so excited to share this incredible journey with you. 
+            Our two little champions are on their way, and we can't wait 
+            for you to be part of their story. ⭐⭐
           </p>
 
           <div className="hero-actions">
@@ -125,16 +125,16 @@ function Home() {
           <div className="twins-illustration">
             <div className="baby-circle baby-1">
               <span>👶</span>
-              <div className="baby-label">Layla</div>
+              <div className="baby-label">Idris</div>
             </div>
             <div className="baby-circle baby-2">
               <span>👶</span>
-              <div className="baby-label">Leen</div>
+              <div className="baby-label">Yousef</div>
             </div>
             <div className="hearts-decoration">
-              <span className="heart h1">💕</span>
+              <span className="heart h1">💙</span>
               <span className="heart h2">✨</span>
-              <span className="heart h3">🌸</span>
+              <span className="heart h3">⭐</span>
               <span className="heart h4">💫</span>
             </div>
           </div>
@@ -150,7 +150,7 @@ function Home() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="countdown-container">
-            <h2 className="countdown-title">Meeting Our Blossoms In</h2>
+            <h2 className="countdown-title">Meeting Our Champions In</h2>
             <div className="countdown-grid">
               <div className="countdown-item">
                 <span className="countdown-number">{timeLeft.days}</span>
@@ -227,11 +227,11 @@ function Home() {
           </div>
           <span className="quote-mark">"</span>
           <blockquote>
-            Layla and Leen, you are coming into a family<br />
+            Idris and Yousef, you are coming into a family<br />
             who will always love you unconditionally, celebrate you,<br />
             protect you, and make sure you are always safe.
           </blockquote>
-          <span className="quote-author">— Your Mum & Dad 💕</span>
+          <span className="quote-author">— Your Mum & Dad 💙</span>
         </div>
       </motion.section>
 
@@ -249,7 +249,7 @@ function Home() {
               <img src="/images/pancake.jpeg" alt="Pancake" />
             </div>
             <blockquote>
-              Layla and Leen, I am over the moon to have sisters
+              Idris and Yousef, I am over the moon to have brothers
               to play with me and throw the ball to me all day.
               I will always play with you and bring you so much joy,
               and we will always be best friends.
@@ -263,7 +263,7 @@ function Home() {
               <img src="/images/batata.jpeg" alt="Batata" />
             </div>
             <blockquote>
-              Hi girls,
+              Hi boys,
               I'm not as playful as Pancake — I prefer chilling and cuddling more — 
               but I promise I'll give you endless love, and you'll always find me 
               to be the most loving companion.
