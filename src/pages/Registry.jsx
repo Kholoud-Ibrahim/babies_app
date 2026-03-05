@@ -74,7 +74,7 @@ function Registry({ items, claimItem }) {
           <div className="section-title">
             <h2>Gift Registry 🎁</h2>
             <div className="section-divider"></div>
-            <p>Help us prepare for our twin girls! Every gift brings us closer to being ready for their arrival.</p>
+            <p>Help us prepare for our twin boys! Every gift brings us closer to being ready for their arrival.</p>
           </div>
 
           {/* Stats */}
