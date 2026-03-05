@@ -1,0 +1,120 @@
+.reset-pin-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.reset-pin-card {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.reset-pin-header {
+  margin-bottom: 1.5rem;
+}
+
+.reset-pin-emoji {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.reset-pin-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #1a1a2e);
+  margin-bottom: 0.5rem;
+}
+
+.reset-pin-header p {
+  color: var(--text-secondary, #666);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.reset-pin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.reset-pin-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a2e);
+  margin-bottom: 0.35rem;
+}
+
+.reset-pin-field input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  text-align: center;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.reset-pin-field input:focus {
+  outline: none;
+  border-color: var(--blue-deep, #4a90d9);
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+}
+
+.reset-pin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--blue-deep, #4a90d9), var(--teal, #50b4a8));
+  color: white;
+  margin-top: 0.5rem;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.reset-pin-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.reset-pin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset-pin-error {
+  background: #fff0f0;
+  color: #d32f2f;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .reset-pin-card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}
+

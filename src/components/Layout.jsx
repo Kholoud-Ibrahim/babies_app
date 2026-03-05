@@ -1,6 +1,10 @@
+import { useState, useRef, useEffect } from 'react'
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Home, Gift, Heart, Baby, Lightbulb } from 'lucide-react'
+import { Home, Gift, Heart, Baby, Lightbulb, LogIn, LogOut, Lock, ChevronDown } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
+import AuthModal from './AuthModal'
+import ChangePinModal from './ChangePinModal'
 import './Layout.css'
 
 const navItems = [
@@ -13,6 +17,21 @@ const navItems = [
 
 function Layout() {
   const location = useLocation()
+  const { guest, logout, showAuthModal, openAuthModal, closeAuthModal } = useAuth()
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [showChangePin, setShowChangePin] = useState(false)
+  const dropdownRef = useRef(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <div className="layout">
@@ -44,6 +63,57 @@ function Layout() {
               </li>
             ))}
           </ul>
+
+          {/* Auth section in nav */}
+          <div className="nav-auth" ref={dropdownRef}>
+            {guest ? (
+              <div className="identity-wrapper">
+                <button 
+                  className="identity-bar"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
+                  <div className="identity-avatar">
+                    {guest.name.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="identity-name">{guest.name}</span>
+                  <ChevronDown size={14} className={`identity-chevron ${showDropdown ? 'open' : ''}`} />
+                </button>
+
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {showDropdown && (
+                    <motion.div 
+                      className="identity-dropdown"
+                      initial={{ opacity: 0, y: -5, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -5, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <button 
+                        className="dropdown-item"
+                        onClick={() => { setShowChangePin(true); setShowDropdown(false) }}
+                      >
+                        <Lock size={15} />
+                        Change PIN
+                      </button>
+                      <button 
+                        className="dropdown-item dropdown-item-danger"
+                        onClick={async () => { await logout(); setShowDropdown(false) }}
+                      >
+                        <LogOut size={15} />
+                        Log Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <button className="login-nav-btn" onClick={openAuthModal}>
+                <LogIn size={16} />
+                <span>Log In</span>
+              </button>
+            )}
+          </div>
 
           {/* Mobile navigation */}
           <div className="mobile-nav">
@@ -83,6 +153,12 @@ function Layout() {
           <p className="footer-subtitle">Coming Soon • 2026</p>
         </div>
       </footer>
+
+      {/* Global Auth Modal */}
+      <AuthModal isOpen={showAuthModal} onClose={closeAuthModal} />
+
+      {/* Change PIN Modal */}
+      <ChangePinModal isOpen={showChangePin} onClose={() => setShowChangePin(false)} />
     </div>
   )
 }

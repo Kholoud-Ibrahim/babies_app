@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, Check, Gift, X, DollarSign, Tag, Star } from 'lucide-react'
+import { Search, Filter, Check, Gift, X, DollarSign, Tag, Star, ShoppingBag, Undo2 } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 import './Registry.css'
 
 const categories = [
@@ -29,14 +30,20 @@ const priorityLabels = {
   low: { label: 'Optional', color: 'sage' },
 }
 
-function Registry({ items, claimItem }) {
+function Registry({ items, claimItem, unclaimItem }) {
+  const { guest, requireAuth } = useAuth()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedBudget, setSelectedBudget] = useState('all')
   const [showFilters, setShowFilters] = useState(false)
   const [claimModal, setClaimModal] = useState(null)
-  const [claimerName, setClaimerName] = useState('')
+  const [unclaimModal, setUnclaimModal] = useState(null)
   const [showAvailableOnly, setShowAvailableOnly] = useState(false)
+
+  // Items claimed by the current user
+  const myClaims = guest 
+    ? items.filter(item => item.claimed && item.claimed_by_id === guest.id)
+    : []
 
   const filteredItems = items.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -49,17 +56,33 @@ function Registry({ items, claimItem }) {
   })
 
   const handleClaim = () => {
-    if (claimerName.trim() && claimModal) {
-      claimItem(claimModal.id, claimerName.trim())
+    if (guest && claimModal) {
+      claimItem(claimModal.id, guest.name, guest.id)
       setClaimModal(null)
-      setClaimerName('')
     }
+  }
+
+  const handleUnclaim = () => {
+    if (guest && unclaimModal) {
+      unclaimItem(unclaimModal.id)
+      setUnclaimModal(null)
+    }
+  }
+
+  const handleClaimClick = (item) => {
+    if (!requireAuth()) return
+    setClaimModal(item)
+  }
+
+  const isMyItem = (item) => {
+    return guest && item.claimed && item.claimed_by_id === guest.id
   }
 
   const stats = {
     total: items.length,
     claimed: items.filter(i => i.claimed).length,
     remaining: items.filter(i => !i.claimed).length,
+    mine: myClaims.length,
   }
 
   return (
@@ -91,15 +114,61 @@ function Registry({ items, claimItem }) {
               <span className="stat-number">{stats.remaining}</span>
               <span className="stat-label">Available</span>
             </div>
+            {guest && (
+              <div className="stat-item mine">
+                <span className="stat-number">{stats.mine}</span>
+                <span className="stat-label">My Claims</span>
+              </div>
+            )}
           </div>
         </motion.div>
+
+        {/* My Claims Section */}
+        {guest && myClaims.length > 0 && (
+          <motion.div 
+            className="my-claims-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <h3 className="my-claims-title">
+              <ShoppingBag size={20} />
+              My Claims ({myClaims.length})
+            </h3>
+            <div className="my-claims-grid">
+              {myClaims.map((item, index) => (
+                <motion.div 
+                  key={item.id}
+                  className="my-claim-card"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <span className="my-claim-emoji">{item.image}</span>
+                  <div className="my-claim-info">
+                    <span className="my-claim-name">{item.name}</span>
+                    <span className="my-claim-price">${item.price}</span>
+                  </div>
+                  <button 
+                    className="unclaim-btn"
+                    onClick={() => setUnclaimModal(item)}
+                    title="Unclaim this item"
+                  >
+                    <Undo2 size={14} />
+                    Unclaim
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         {/* Search and Filters */}
         <motion.div 
           className="filters-section"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: 0.15 }}
         >
           <div className="search-bar">
             <Search size={20} />
@@ -196,56 +265,80 @@ function Registry({ items, claimItem }) {
         >
           <AnimatePresence>
             {filteredItems.length > 0 ? (
-              filteredItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  className={`registry-item ${item.claimed ? 'claimed' : ''}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ delay: index * 0.05 }}
-                  layout
-                >
-                  {item.claimed && (
-                    <div className="claimed-overlay">
-                      <Check size={32} />
-                      <span>Claimed by {item.claimed_by}</span>
-                    </div>
-                  )}
+              filteredItems.map((item, index) => {
+                const mine = isMyItem(item)
+                const claimedByOther = item.claimed && !mine
 
-                  <div className="item-image">
-                    <span>{item.image}</span>
-                  </div>
-
-                  <div className="item-content">
-                    <div className="item-header">
-                      <h3>{item.name}</h3>
-                      <span className={`priority-badge priority-${item.priority}`}>
-                        <Star size={12} />
-                        {priorityLabels[item.priority].label}
-                      </span>
-                    </div>
-
-                    <div className="item-meta">
-                      <span className="item-category">
-                        {categories.find(c => c.id === item.category)?.icon}{' '}
-                        {categories.find(c => c.id === item.category)?.label}
-                      </span>
-                      <span className="item-price">${item.price}</span>
-                    </div>
-
-                    {!item.claimed && (
-                      <button 
-                        className="claim-btn"
-                        onClick={() => setClaimModal(item)}
-                      >
-                        <Gift size={16} />
-                        I'll Get This!
-                      </button>
+                return (
+                  <motion.div
+                    key={item.id}
+                    className={`registry-item ${item.claimed ? 'claimed' : ''} ${mine ? 'mine' : ''}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ delay: index * 0.05 }}
+                    layout
+                  >
+                    {/* Claimed by someone else overlay */}
+                    {claimedByOther && (
+                      <div className="claimed-overlay">
+                        <Check size={32} />
+                        <span>Claimed by {item.claimed_by}</span>
+                      </div>
                     )}
-                  </div>
-                </motion.div>
-              ))
+
+                    {/* My claim badge */}
+                    {mine && (
+                      <div className="my-claim-badge">
+                        <Check size={14} />
+                        You claimed this!
+                      </div>
+                    )}
+
+                    <div className="item-image">
+                      <span>{item.image}</span>
+                    </div>
+
+                    <div className="item-content">
+                      <div className="item-header">
+                        <h3>{item.name}</h3>
+                        <span className={`priority-badge priority-${item.priority}`}>
+                          <Star size={12} />
+                          {priorityLabels[item.priority].label}
+                        </span>
+                      </div>
+
+                      <div className="item-meta">
+                        <span className="item-category">
+                          {categories.find(c => c.id === item.category)?.icon}{' '}
+                          {categories.find(c => c.id === item.category)?.label}
+                        </span>
+                        <span className="item-price">${item.price}</span>
+                      </div>
+
+                      {!item.claimed && (
+                        <button 
+                          className="claim-btn"
+                          onClick={() => handleClaimClick(item)}
+                        >
+                          <Gift size={16} />
+                          I'll Get This!
+                        </button>
+                      )}
+
+                      {mine && (
+                        <button 
+                          className="unclaim-btn-card"
+                          onClick={() => setUnclaimModal(item)}
+                        >
+                          <Undo2 size={16} />
+                          Unclaim
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                )
+              })
             ) : (
               <motion.div 
                 className="empty-state"
@@ -260,7 +353,7 @@ function Registry({ items, claimItem }) {
           </AnimatePresence>
         </motion.div>
 
-        {/* Claim Modal */}
+        {/* Claim Confirmation Modal */}
         <AnimatePresence>
           {claimModal && (
             <motion.div 
@@ -282,24 +375,16 @@ function Registry({ items, claimItem }) {
                 </button>
 
                 <div className="modal-icon">{claimModal.image}</div>
-                <h3>Claim "{claimModal.name}"</h3>
+                <h3>Claim "{claimModal.name}"?</h3>
                 <p className="modal-price">${claimModal.price}</p>
 
-                <div className="form-group">
-                  <label className="form-label">Your Name</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    placeholder="Enter your name"
-                    value={claimerName}
-                    onChange={(e) => setClaimerName(e.target.value)}
-                    autoFocus
-                  />
-                </div>
+                <p className="modal-claiming-as">
+                  Claiming as <strong>{guest?.name}</strong>
+                </p>
 
                 <p className="modal-note">
                   By claiming this item, you're letting others know you plan to purchase it. 
-                  Thank you for your generosity! 💕
+                  You can unclaim it later if you change your mind. Thank you for your generosity! 💕
                 </p>
 
                 <div className="modal-actions">
@@ -309,10 +394,53 @@ function Registry({ items, claimItem }) {
                   <button 
                     className="btn btn-primary" 
                     onClick={handleClaim}
-                    disabled={!claimerName.trim()}
                   >
                     <Check size={18} />
                     Confirm Claim
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Unclaim Confirmation Modal */}
+        <AnimatePresence>
+          {unclaimModal && (
+            <motion.div 
+              className="modal-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setUnclaimModal(null)}
+            >
+              <motion.div 
+                className="modal"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={e => e.stopPropagation()}
+              >
+                <button className="modal-close" onClick={() => setUnclaimModal(null)}>
+                  <X size={20} />
+                </button>
+
+                <div className="modal-icon">🔄</div>
+                <h3>Unclaim "{unclaimModal.name}"?</h3>
+                <p className="modal-note">
+                  This will make the item available for others to claim again.
+                </p>
+
+                <div className="modal-actions">
+                  <button className="btn btn-secondary" onClick={() => setUnclaimModal(null)}>
+                    Keep It
+                  </button>
+                  <button 
+                    className="btn btn-danger" 
+                    onClick={handleUnclaim}
+                  >
+                    <Undo2 size={18} />
+                    Unclaim
                   </button>
                 </div>
               </motion.div>
@@ -325,4 +453,3 @@ function Registry({ items, claimItem }) {
 }
 
 export default Registry
-

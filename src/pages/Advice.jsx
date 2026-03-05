@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, Send, Sparkles, ThumbsUp, ThumbsDown, Baby, ShoppingBag, Lightbulb, Heart, ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 import './Advice.css'
 
 const categories = [
@@ -12,6 +13,7 @@ const categories = [
 ]
 
 function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, addComment, deleteComment, deleteTip, registryItems }) {
+  const { requireAuth } = useAuth()
   const [activeCategory, setActiveCategory] = useState('all')
   const [showForm, setShowForm] = useState(false)
   const [expandedComments, setExpandedComments] = useState({})
@@ -32,6 +34,7 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!requireAuth()) return
     if (!formData.name.trim() || !formData.message.trim()) return
 
     setIsSubmitting(true)
@@ -62,6 +65,7 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
   }
 
   const handleAddComment = (tipId) => {
+    if (!requireAuth()) return
     const input = commentInputs[tipId]
     if (!input?.name?.trim() || !input?.text?.trim()) return
     
@@ -141,7 +145,7 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
 
           <button 
             className="btn btn-primary add-tip-btn"
-            onClick={() => setShowForm(true)}
+            onClick={() => { if (requireAuth()) setShowForm(true) }}
           >
             <MessageCircle size={18} />
             Share a Tip
@@ -202,7 +206,7 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
                       <div className="tip-actions">
                         <motion.button 
                           className={`reaction-btn like ${userReactions.liked.includes(tip.id) ? 'active' : ''}`}
-                          onClick={() => toggleLikeTip(tip.id)}
+                          onClick={() => { if (requireAuth()) toggleLikeTip(tip.id) }}
                           whileTap={{ scale: 0.9 }}
                         >
                           <ThumbsUp size={16} fill={userReactions.liked.includes(tip.id) ? 'currentColor' : 'none'} />
@@ -210,7 +214,7 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
                         </motion.button>
                         <motion.button 
                           className={`reaction-btn dislike ${userReactions.disliked.includes(tip.id) ? 'active' : ''}`}
-                          onClick={() => toggleDislikeTip(tip.id)}
+                          onClick={() => { if (requireAuth()) toggleDislikeTip(tip.id) }}
                           whileTap={{ scale: 0.9 }}
                         >
                           <ThumbsDown size={16} fill={userReactions.disliked.includes(tip.id) ? 'currentColor' : 'none'} />

@@ -7,6 +7,7 @@ import Registry from './pages/Registry'
 import SendLove from './pages/SendLove'
 import Updates from './pages/Updates'
 import Advice from './pages/Advice'
+import ResetPin from './pages/ResetPin'
 import './App.css'
 
 // Initial registry data (for seeding)
@@ -280,10 +281,10 @@ function App() {
   }
 
   // Registry functions
-  const claimItem = async (itemId, claimerName) => {
+  const claimItem = async (itemId, claimerName, claimerId) => {
     const { error } = await supabase
       .from('registry_items')
-      .update({ claimed: true, claimed_by: claimerName })
+      .update({ claimed: true, claimed_by: claimerName, claimed_by_id: claimerId })
       .eq('id', itemId)
     
     if (error) {
@@ -293,7 +294,25 @@ function App() {
     
     setRegistryItems(prev => prev.map(item => 
       item.id === itemId 
-        ? { ...item, claimed: true, claimed_by: claimerName }
+        ? { ...item, claimed: true, claimed_by: claimerName, claimed_by_id: claimerId }
+        : item
+    ))
+  }
+
+  const unclaimItem = async (itemId) => {
+    const { error } = await supabase
+      .from('registry_items')
+      .update({ claimed: false, claimed_by: null, claimed_by_id: null })
+      .eq('id', itemId)
+    
+    if (error) {
+      console.error('Error unclaiming item:', error)
+      return
+    }
+    
+    setRegistryItems(prev => prev.map(item => 
+      item.id === itemId 
+        ? { ...item, claimed: false, claimed_by: null, claimed_by_id: null }
         : item
     ))
   }
@@ -585,7 +604,7 @@ function App() {
       <div className="loading-screen">
         <div className="loading-content">
           <span className="loading-emoji">🌸</span>
-          <p>Loading Twin Blossoms...</p>
+          <p>Loading Twin Boys...</p>
         </div>
       </div>
     )
@@ -595,7 +614,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="registry" element={<Registry items={registryItems} claimItem={claimItem} />} />
+        <Route path="registry" element={<Registry items={registryItems} claimItem={claimItem} unclaimItem={unclaimItem} />} />
         <Route path="send-love" element={<SendLove cards={cards} addCard={addCard} deleteCard={deleteCard} />} />
         <Route path="updates" element={<Updates />} />
         <Route 
@@ -615,6 +634,7 @@ function App() {
           } 
         />
       </Route>
+      <Route path="/reset-pin" element={<ResetPin />} />
     </Routes>
   )
 }

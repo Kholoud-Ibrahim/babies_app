@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, Send, Sparkles, Palette, BookOpen, Trash2 } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 import './SendLove.css'
 
 const cardTemplates = [
@@ -15,6 +16,7 @@ const cardTemplates = [
 const decorations = ['💕', '🎀', '👶', '🌸', '✨', '💝', '🦋', '🌈', '⭐', '🎁']
 
 function SendLove({ cards, addCard, deleteCard }) {
+  const { guest, requireAuth } = useAuth()
   const [activeTab, setActiveTab] = useState('create')
   const [formData, setFormData] = useState({
     senderName: '',
@@ -28,6 +30,7 @@ function SendLove({ cards, addCard, deleteCard }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!requireAuth()) return
     if (!formData.senderName.trim() || !formData.message.trim()) return
 
     setIsSubmitting(true)
