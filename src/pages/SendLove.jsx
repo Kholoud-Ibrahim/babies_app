@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, Send, Sparkles, Palette, BookOpen, Trash2, Pencil, X } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -19,11 +19,18 @@ function SendLove({ cards, addCard, editCard, deleteCard }) {
   const { guest, isAdmin, requireAuth } = useAuth()
   const [activeTab, setActiveTab] = useState('create')
   const [formData, setFormData] = useState({
-    senderName: '',
+    senderName: guest?.name || '',
     message: '',
     template: cardTemplates[0],
     decoration: '💕'
   })
+
+  // Auto-fill name when user logs in
+  useEffect(() => {
+    if (guest?.name) {
+      setFormData(prev => ({ ...prev, senderName: guest.name }))
+    }
+  }, [guest?.name])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
@@ -50,7 +57,7 @@ function SendLove({ cards, addCard, editCard, deleteCard }) {
 
     setShowSuccess(true)
     setFormData({
-      senderName: '',
+      senderName: guest?.name || '',
       message: '',
       template: cardTemplates[0],
       decoration: '💕'
@@ -183,10 +190,11 @@ function SendLove({ cards, addCard, editCard, deleteCard }) {
                     <label className="form-label">Your Name</label>
                     <input
                       type="text"
-                      className="form-input"
+                      className={`form-input ${guest ? 'form-input-readonly' : ''}`}
                       placeholder="Enter your name"
                       value={formData.senderName}
                       onChange={(e) => setFormData({ ...formData, senderName: e.target.value })}
+                      readOnly={!!guest}
                       required
                     />
                   </div>

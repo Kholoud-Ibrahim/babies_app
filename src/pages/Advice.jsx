@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, Send, Sparkles, ThumbsUp, ThumbsDown, Baby, ShoppingBag, Lightbulb, Heart, ChevronDown, ChevronUp, Trash2, Pencil, X, Check } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -19,11 +19,18 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
   const [expandedComments, setExpandedComments] = useState({})
   const [commentInputs, setCommentInputs] = useState({})
   const [formData, setFormData] = useState({
-    name: '',
+    name: guest?.name || '',
     category: 'parenting',
     relatedItem: '',
     message: ''
   })
+
+  // Auto-fill name when user logs in
+  useEffect(() => {
+    if (guest?.name) {
+      setFormData(prev => ({ ...prev, name: guest.name }))
+    }
+  }, [guest?.name])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
@@ -56,7 +63,7 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
       createdById: guest?.id || null,
     })
 
-    setFormData({ name: '', category: 'parenting', relatedItem: '', message: '' })
+    setFormData({ name: guest?.name || '', category: 'parenting', relatedItem: '', message: '' })
     setIsSubmitting(false)
     setShowForm(false)
     setShowSuccess(true)
@@ -73,17 +80,18 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
   const handleAddComment = (tipId) => {
     if (!requireAuth()) return
     const input = commentInputs[tipId]
-    if (!input?.name?.trim() || !input?.text?.trim()) return
+    const commentName = input?.name?.trim() || guest?.name || ''
+    if (!commentName || !input?.text?.trim()) return
     
     addComment(tipId, {
-      name: input.name.trim(),
+      name: commentName,
       text: input.text.trim(),
       createdById: guest?.id || null,
     })
     
     setCommentInputs(prev => ({
       ...prev,
-      [tipId]: { name: '', text: '' }
+      [tipId]: { name: guest?.name || '', text: '' }
     }))
   }
 
@@ -381,9 +389,10 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
                             <input
                               type="text"
                               placeholder="Your name"
-                              className="comment-name-input"
-                              value={commentInputs[tip.id]?.name || ''}
+                              className={`comment-name-input ${guest ? 'form-input-readonly' : ''}`}
+                              value={commentInputs[tip.id]?.name || guest?.name || ''}
                               onChange={(e) => updateCommentInput(tip.id, 'name', e.target.value)}
+                              readOnly={!!guest}
                             />
                             <div className="comment-input-row">
                               <input
@@ -399,7 +408,7 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
                               <button 
                                 className="send-comment-btn"
                                 onClick={() => handleAddComment(tip.id)}
-                                disabled={!commentInputs[tip.id]?.name?.trim() || !commentInputs[tip.id]?.text?.trim()}
+                                disabled={!(commentInputs[tip.id]?.name?.trim() || guest?.name) || !commentInputs[tip.id]?.text?.trim()}
                               >
                                 <Send size={16} />
                               </button>
@@ -462,10 +471,11 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
                       <label className="form-label">Your Name</label>
                       <input
                         type="text"
-                        className="form-input"
+                        className={`form-input ${guest ? 'form-input-readonly' : ''}`}
                         placeholder="Enter your name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        readOnly={!!guest}
                         required
                       />
                     </div>

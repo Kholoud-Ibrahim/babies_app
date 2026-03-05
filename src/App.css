@@ -98,6 +98,18 @@
   box-shadow: 0 0 0 4px rgba(59, 126, 161, 0.1);
 }
 
+.form-input-readonly {
+  background: var(--bg-secondary, #f0f4f8);
+  color: var(--text-medium);
+  cursor: default;
+  border-color: transparent;
+}
+
+.form-input-readonly:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .form-textarea {
   min-height: 120px;
   resize: vertical;
