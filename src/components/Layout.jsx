@@ -130,13 +130,41 @@ function Layout() {
             ))}
             {/* Mobile auth button */}
             {guest ? (
-              <button
-                className="mobile-nav-link mobile-auth-btn"
-                onClick={() => setShowDropdown(!showDropdown)}
-              >
-                <div className="mobile-avatar">{guest.name.charAt(0).toUpperCase()}</div>
-                <span className="mobile-auth-name">{guest.name.split(' ')[0]}</span>
-              </button>
+              <div className="mobile-auth-wrapper" ref={dropdownRef}>
+                <button
+                  className="mobile-nav-link mobile-auth-btn"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
+                  <div className="mobile-avatar">{guest.name.charAt(0).toUpperCase()}</div>
+                  <span className="mobile-auth-name">{guest.name.split(' ')[0]}</span>
+                </button>
+                <AnimatePresence>
+                  {showDropdown && (
+                    <motion.div
+                      className="mobile-dropdown"
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <button
+                        className="dropdown-item"
+                        onClick={() => { setShowChangePin(true); setShowDropdown(false) }}
+                      >
+                        <Lock size={15} />
+                        Change PIN
+                      </button>
+                      <button
+                        className="dropdown-item dropdown-item-danger"
+                        onClick={async () => { await logout(); setShowDropdown(false) }}
+                      >
+                        <LogOut size={15} />
+                        Log Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <button
                 className="mobile-nav-link mobile-auth-btn mobile-login-btn"

@@ -314,6 +314,23 @@
   font-size: 0.65rem;
 }
 
+.mobile-auth-wrapper {
+  position: relative;
+}
+
+.mobile-dropdown {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: -8px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  min-width: 170px;
+  overflow: hidden;
+  z-index: 300;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .nav-links {
