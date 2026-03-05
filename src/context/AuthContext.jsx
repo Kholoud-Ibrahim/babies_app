@@ -116,9 +116,23 @@ export function AuthProvider({ children }) {
   }
 
   const resetPassword = async (email) => {
+    const trimmedEmail = email.trim().toLowerCase()
+
+    // Check if the email is registered first
+    const { data: exists, error: checkError } = await supabase.rpc('check_email_exists', {
+      email_input: trimmedEmail,
+    })
+
+    if (checkError) {
+      // If the function doesn't exist yet, fall through to default behavior
+      console.warn('check_email_exists RPC not available:', checkError.message)
+    } else if (!exists) {
+      return { error: 'No account found with this email. Please register first.' }
+    }
+
     const redirectUrl = `${window.location.origin}/reset-pin`
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+    const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
       redirectTo: redirectUrl,
     })
 
