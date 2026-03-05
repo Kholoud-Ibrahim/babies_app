@@ -135,7 +135,7 @@ function Layout() {
                 onClick={() => setShowDropdown(!showDropdown)}
               >
                 <div className="mobile-avatar">{guest.name.charAt(0).toUpperCase()}</div>
-                <span>Account</span>
+                <span className="mobile-auth-name">{guest.name.split(' ')[0]}</span>
               </button>
             ) : (
               <button
