@@ -128,6 +128,24 @@ function Layout() {
                 <span>{label}</span>
               </NavLink>
             ))}
+            {/* Mobile auth button */}
+            {guest ? (
+              <button
+                className="mobile-nav-link mobile-auth-btn"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                <div className="mobile-avatar">{guest.name.charAt(0).toUpperCase()}</div>
+                <span>Account</span>
+              </button>
+            ) : (
+              <button
+                className="mobile-nav-link mobile-auth-btn mobile-login-btn"
+                onClick={openAuthModal}
+              >
+                <LogIn size={20} />
+                <span>Log In</span>
+              </button>
+            )}
           </div>
         </div>
       </nav>
