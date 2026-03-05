@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import './Home.css'
 
 // Set your due date here
-const DUE_DATE = new Date('2026-07-04')
+const DUE_DATE = new Date('2026-06-07')
 
 function Home() {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
@@ -172,7 +172,7 @@ function Home() {
                 <span className="countdown-label">Seconds</span>
               </div>
             </div>
-            <p className="countdown-date">Expected: July 4, 2026</p>
+            <p className="countdown-date">Expected: June 7, 2026 (36 weeks)</p>
           </div>
         </motion.section>
       )}
