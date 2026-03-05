@@ -127,13 +127,43 @@
 }
 
 .identity-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 50px;
   cursor: pointer;
   border: none;
   background: var(--blue-pale);
+  transition: background 0.2s;
 }
 
 .identity-bar:hover {
   background: var(--blue-light);
+}
+
+.identity-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-deep), var(--teal));
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.identity-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .identity-chevron {
