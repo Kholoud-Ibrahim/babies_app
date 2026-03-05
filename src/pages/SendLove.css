@@ -273,29 +273,81 @@
 }
 
 /* Delete Button */
-.delete-card-btn {
+.card-action-btns {
   position: absolute;
   top: var(--space-sm);
   right: var(--space-sm);
-  width: 32px;
-  height: 32px;
+  display: flex;
+  gap: 0.3rem;
+  opacity: 0;
+  transition: all var(--transition-fast);
+  z-index: 2;
+}
+
+.received-card:hover .card-action-btns {
+  opacity: 1;
+}
+
+.delete-card-btn,
+.edit-card-btn {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   color: var(--text-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  border: none;
+  cursor: pointer;
   transition: all var(--transition-fast);
-}
-
-.received-card:hover .delete-card-btn {
-  opacity: 1;
 }
 
 .delete-card-btn:hover {
   background: #fee2e2;
   color: #dc2626;
+}
+
+.edit-card-btn:hover {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+/* Card inline edit */
+.card-edit-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.card-edit-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.6rem;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+}
+
+.card-edit-textarea:focus {
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.card-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.btn-sm {
+  padding: 0.3rem 0.7rem !important;
+  font-size: 0.75rem !important;
+  border-radius: 6px !important;
 }
 
 /* Modal */

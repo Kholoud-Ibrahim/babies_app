@@ -3,6 +3,11 @@ import { supabase } from '../lib/supabase'
 
 const AuthContext = createContext(null)
 
+const ADMIN_EMAILS = [
+  'kholoud.f.mahmoud@gmail.com',
+  'muqbil_mohammed@yahoo.co.uk',
+]
+
 export function AuthProvider({ children }) {
   const [guest, setGuest] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -158,10 +163,13 @@ export function AuthProvider({ children }) {
     return true
   }, [guest])
 
+  const isAdmin = guest ? ADMIN_EMAILS.includes(guest.email?.toLowerCase()) : false
+
   return (
     <AuthContext.Provider value={{
       guest,
       loading,
+      isAdmin,
       register,
       login,
       logout,

@@ -283,6 +283,35 @@
   }
 }
 
+/* Admin styles */
+.admin-badge {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-link.admin-link {
+  color: var(--pink-dark, #d63384);
+  font-weight: 600;
+}
+
+.nav-link.admin-link.active {
+  color: var(--pink-dark, #d63384);
+}
+
+.mobile-nav-link.admin-link {
+  color: var(--pink-dark, #d63384);
+}
+
+.mobile-nav-link.admin-link.active {
+  color: var(--pink-dark, #d63384);
+}
+
 /* Animation */
 @keyframes float {
   0%, 100% { transform: translateY(0); }

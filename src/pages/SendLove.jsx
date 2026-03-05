@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Heart, Send, Sparkles, Palette, BookOpen, Trash2 } from 'lucide-react'
+import { Heart, Send, Sparkles, Palette, BookOpen, Trash2, Pencil, X } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import './SendLove.css'
 
@@ -15,8 +15,8 @@ const cardTemplates = [
 
 const decorations = ['💕', '🎀', '👶', '🌸', '✨', '💝', '🦋', '🌈', '⭐', '🎁']
 
-function SendLove({ cards, addCard, deleteCard }) {
-  const { guest, requireAuth } = useAuth()
+function SendLove({ cards, addCard, editCard, deleteCard }) {
+  const { guest, isAdmin, requireAuth } = useAuth()
   const [activeTab, setActiveTab] = useState('create')
   const [formData, setFormData] = useState({
     senderName: '',
@@ -27,6 +27,8 @@ function SendLove({ cards, addCard, deleteCard }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
+  const [editingCard, setEditingCard] = useState(null)
+  const [editMessage, setEditMessage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -42,7 +44,8 @@ function SendLove({ cards, addCard, deleteCard }) {
       message: formData.message,
       templateId: formData.template.id,
       template: formData.template,
-      decoration: formData.decoration
+      decoration: formData.decoration,
+      createdById: guest?.id || null,
     })
 
     setShowSuccess(true)
@@ -63,6 +66,23 @@ function SendLove({ cards, addCard, deleteCard }) {
   const handleDelete = (cardId) => {
     deleteCard(cardId)
     setDeleteConfirm(null)
+  }
+
+  const handleStartEdit = (card) => {
+    setEditingCard(card.id)
+    setEditMessage(card.message)
+  }
+
+  const handleSaveEdit = (cardId) => {
+    if (editMessage.trim()) {
+      editCard(cardId, { message: editMessage.trim() })
+    }
+    setEditingCard(null)
+    setEditMessage('')
+  }
+
+  const canModify = (card) => {
+    return isAdmin || (guest && card.created_by_id === guest.id)
   }
 
   const formatDate = (dateString) => {
@@ -249,17 +269,60 @@ function SendLove({ cards, addCard, deleteCard }) {
                       transition={{ delay: index * 0.05 }}
                       whileHover={{ scale: 1.02, rotate: Math.random() > 0.5 ? 1 : -1 }}
                     >
-                      <button 
-                        className="delete-card-btn"
-                        onClick={() => setDeleteConfirm(card.id)}
-                        title="Delete card"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      {/* Card action buttons: show for owner or admin */}
+                      {canModify(card) && (
+                        <div className="card-action-btns">
+                          {/* Only owner can edit */}
+                          {guest && card.created_by_id === guest.id && (
+                            <button 
+                              className="edit-card-btn"
+                              onClick={() => handleStartEdit(card)}
+                              title="Edit card"
+                            >
+                              <Pencil size={14} />
+                            </button>
+                          )}
+                          <button 
+                            className="delete-card-btn"
+                            onClick={() => setDeleteConfirm(card.id)}
+                            title="Delete card"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      )}
+
                       <div className="received-decoration">{card.decoration}</div>
-                      <p className="received-message" style={{ color: card.template.textColor }}>
-                        {card.message}
-                      </p>
+
+                      {/* Inline edit mode */}
+                      {editingCard === card.id ? (
+                        <div className="card-edit-inline">
+                          <textarea
+                            className="card-edit-textarea"
+                            value={editMessage}
+                            onChange={(e) => setEditMessage(e.target.value)}
+                            maxLength={500}
+                            style={{ color: card.template.textColor }}
+                          />
+                          <div className="card-edit-actions">
+                            <button className="btn btn-sm btn-secondary" onClick={() => setEditingCard(null)}>
+                              Cancel
+                            </button>
+                            <button 
+                              className="btn btn-sm btn-primary" 
+                              onClick={() => handleSaveEdit(card.id)}
+                              disabled={!editMessage.trim()}
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="received-message" style={{ color: card.template.textColor }}>
+                          {card.message}
+                        </p>
+                      )}
+
                       <p className="received-sender" style={{ color: card.template.textColor }}>
                         — {card.sender_name}
                       </p>

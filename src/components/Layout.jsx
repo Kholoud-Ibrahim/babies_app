@@ -17,7 +17,7 @@ const navItems = [
 
 function Layout() {
   const location = useLocation()
-  const { guest, logout, showAuthModal, openAuthModal, closeAuthModal } = useAuth()
+  const { guest, isAdmin, logout, showAuthModal, openAuthModal, closeAuthModal } = useAuth()
   const [showDropdown, setShowDropdown] = useState(false)
   const [showChangePin, setShowChangePin] = useState(false)
   const dropdownRef = useRef(null)
@@ -76,6 +76,7 @@ function Layout() {
                     {guest.name.charAt(0).toUpperCase()}
                   </div>
                   <span className="identity-name">{guest.name}</span>
+                  {isAdmin && <span className="admin-badge">Admin</span>}
                   <ChevronDown size={14} className={`identity-chevron ${showDropdown ? 'open' : ''}`} />
                 </button>
 

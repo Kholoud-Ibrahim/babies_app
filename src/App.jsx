@@ -10,69 +10,6 @@ import Advice from './pages/Advice'
 import ResetPin from './pages/ResetPin'
 import './App.css'
 
-// Initial registry data (for seeding)
-const initialRegistryItems = [
-  { name: "Twin Stroller", category: "gear", price: 450, claimed: false, claimed_by: null, image: "🚼", priority: "high" },
-  { name: "Matching Crib Set (2)", category: "nursery", price: 350, claimed: false, claimed_by: null, image: "🛏️", priority: "high" },
-  { name: "Diaper Bag Backpack", category: "gear", price: 85, claimed: false, claimed_by: null, image: "🎒", priority: "medium" },
-  { name: "Baby Monitor", category: "electronics", price: 200, claimed: false, claimed_by: null, image: "📱", priority: "high" },
-  { name: "Swaddle Blankets Set", category: "clothing", price: 45, claimed: false, claimed_by: null, image: "🧣", priority: "medium" },
-  { name: "Bottle Sterilizer", category: "feeding", price: 75, claimed: false, claimed_by: null, image: "🍼", priority: "medium" },
-  { name: "Twin Nursing Pillow", category: "feeding", price: 65, claimed: false, claimed_by: null, image: "💝", priority: "high" },
-  { name: "Matching Onesies Pack", category: "clothing", price: 35, claimed: false, claimed_by: null, image: "👶", priority: "low" },
-  { name: "Baby Swing", category: "gear", price: 180, claimed: false, claimed_by: null, image: "🎠", priority: "medium" },
-  { name: "Night Light Projector", category: "nursery", price: 40, claimed: false, claimed_by: null, image: "🌙", priority: "low" },
-  { name: "Baby Bath Tub (2)", category: "bath", price: 55, claimed: false, claimed_by: null, image: "🛁", priority: "medium" },
-  { name: "Sound Machine", category: "nursery", price: 50, claimed: false, claimed_by: null, image: "🎵", priority: "medium" },
-  { name: "Baby Books Collection", category: "toys", price: 30, claimed: false, claimed_by: null, image: "📚", priority: "low" },
-  { name: "Play Mat", category: "toys", price: 90, claimed: false, claimed_by: null, image: "🎪", priority: "medium" },
-  { name: "Car Seats (2)", category: "gear", price: 300, claimed: false, claimed_by: null, image: "🚗", priority: "high" },
-  { name: "Diaper Subscription", category: "essentials", price: 100, claimed: false, claimed_by: null, image: "📦", priority: "high" },
-]
-
-// Initial updates data (for seeding) - empty, add your own updates!
-const initialUpdates = []
-
-// Initial tips/advice (for seeding)
-const initialTips = [
-  {
-    name: "Aunt Maria",
-    category: "twins",
-    related_item: null,
-    message: "With twins, the best advice I got was to keep them on the same schedule! When one wakes up to feed, wake the other too. It'll save your sanity and help you get some rest. Trust me on this one! 💪",
-    likes: 12,
-    dislikes: 0,
-    date: "2026-01-24"
-  },
-  {
-    name: "Sarah (mom of twins)",
-    category: "registry",
-    related_item: "Twin Stroller",
-    message: "For the twin stroller, I'd highly recommend one that's narrow enough to fit through standard doorways. Also look for one where both seats fully recline for those newborn days! The side-by-side is great for interaction between the babies.",
-    likes: 8,
-    dislikes: 1,
-    date: "2026-01-23"
-  },
-  {
-    name: "Grandpa Joe",
-    category: "parenting",
-    related_item: null,
-    message: "Remember to take lots of photos and videos - they grow up so fast! And don't forget to take care of yourselves too. Accept help when it's offered, and don't try to be perfect. You've got this! ❤️",
-    likes: 15,
-    dislikes: 0,
-    date: "2026-01-22"
-  },
-  {
-    name: "Emma",
-    category: "recommendations",
-    related_item: null,
-    message: "Get a good white noise machine - twins can easily wake each other up! Also, the Hatch sound machine is amazing because you can control it from your phone. Game changer for nap time! 🎵",
-    likes: 6,
-    dislikes: 0,
-    date: "2026-01-21"
-  }
-]
-
 function App() {
   const [registryItems, setRegistryItems] = useState([])
   const [updates, setUpdates] = useState([])
@@ -179,16 +116,7 @@ function App() {
       return
     }
     
-    // If no items, seed with initial data
-    if (data.length === 0) {
-      const { data: seededData } = await supabase
-        .from('registry_items')
-        .insert(initialRegistryItems)
-        .select()
-      setRegistryItems(seededData || [])
-    } else {
-      setRegistryItems(data)
-    }
+    setRegistryItems(data || [])
   }
 
   const fetchUpdates = async () => {
@@ -202,19 +130,8 @@ function App() {
       return
     }
     
-    // If no updates, seed with initial data
-    if (data.length === 0) {
-      const { data: seededData } = await supabase
-        .from('updates')
-        .insert(initialUpdates)
-        .select()
-      // Fetch comments for each update
-      const updatesWithComments = await fetchUpdateComments(seededData || [])
-      setUpdates(updatesWithComments)
-    } else {
-      const updatesWithComments = await fetchUpdateComments(data)
-      setUpdates(updatesWithComments)
-    }
+    const updatesWithComments = await fetchUpdateComments(data || [])
+    setUpdates(updatesWithComments)
   }
 
   const fetchUpdateComments = async (updatesData) => {
@@ -254,18 +171,8 @@ function App() {
       return
     }
     
-    // If no tips, seed with initial data
-    if (data.length === 0) {
-      const { data: seededData } = await supabase
-        .from('tips')
-        .insert(initialTips)
-        .select()
-      const tipsWithComments = await fetchTipComments(seededData || [])
-      setTips(tipsWithComments)
-    } else {
-      const tipsWithComments = await fetchTipComments(data)
-      setTips(tipsWithComments)
-    }
+    const tipsWithComments = await fetchTipComments(data || [])
+    setTips(tipsWithComments)
   }
 
   const fetchTipComments = async (tipsData) => {
@@ -317,6 +224,66 @@ function App() {
     ))
   }
 
+  // Admin registry functions
+  const addRegistryItem = async (item) => {
+    const { error } = await supabase
+      .from('registry_items')
+      .insert({
+        name: item.name,
+        category: item.category,
+        qty: item.qty || 1,
+        image: item.image || '🎁',
+        link: item.link || null,
+        claimed: false,
+        claimed_by: null,
+        claimed_by_id: null,
+      })
+    
+    if (error) {
+      console.error('Error adding registry item:', error)
+      return
+    }
+    
+    // Real-time subscription will refresh the list
+    await fetchRegistryItems()
+  }
+
+  const deleteRegistryItem = async (itemId) => {
+    const { error } = await supabase
+      .from('registry_items')
+      .delete()
+      .eq('id', itemId)
+    
+    if (error) {
+      console.error('Error deleting registry item:', error)
+      return
+    }
+    
+    setRegistryItems(prev => prev.filter(item => item.id !== itemId))
+  }
+
+  const editRegistryItem = async (itemId, updates) => {
+    const { error } = await supabase
+      .from('registry_items')
+      .update({
+        name: updates.name,
+        category: updates.category,
+        qty: updates.qty,
+        image: updates.image,
+        link: updates.link || null,
+      })
+      .eq('id', itemId)
+
+    if (error) {
+      console.error('Error editing registry item:', error)
+      return
+    }
+
+    setRegistryItems(prev => prev.map(item =>
+      item.id === itemId ? { ...item, ...updates, link: updates.link || null } : item
+    ))
+  }
+
   // Card functions
   const addCard = async (card) => {
     const { data, error } = await supabase
@@ -327,7 +294,8 @@ function App() {
         template_id: card.templateId,
         template: card.template,
         decoration: card.decoration,
-        date: new Date().toISOString().split('T')[0]
+        date: new Date().toISOString().split('T')[0],
+        created_by_id: card.createdById || null,
       })
       .select()
       .single()
@@ -338,6 +306,22 @@ function App() {
     }
     
     setCards(prev => [data, ...prev])
+  }
+
+  const editCard = async (cardId, updates) => {
+    const { error } = await supabase
+      .from('cards')
+      .update({ message: updates.message })
+      .eq('id', cardId)
+
+    if (error) {
+      console.error('Error editing card:', error)
+      return
+    }
+
+    setCards(prev => prev.map(card =>
+      card.id === cardId ? { ...card, message: updates.message } : card
+    ))
   }
 
   const deleteCard = async (cardId) => {
@@ -365,7 +349,8 @@ function App() {
         message: tip.message,
         likes: 0,
         dislikes: 0,
-        date: new Date().toISOString().split('T')[0]
+        date: new Date().toISOString().split('T')[0],
+        created_by_id: tip.createdById || null,
       })
       .select()
       .single()
@@ -376,6 +361,22 @@ function App() {
     }
     
     setTips(prev => [{ ...data, comments: [] }, ...prev])
+  }
+
+  const editTip = async (tipId, updates) => {
+    const { error } = await supabase
+      .from('tips')
+      .update({ message: updates.message })
+      .eq('id', tipId)
+
+    if (error) {
+      console.error('Error editing tip:', error)
+      return
+    }
+
+    setTips(prev => prev.map(tip =>
+      tip.id === tipId ? { ...tip, message: updates.message } : tip
+    ))
   }
 
   const deleteTip = async (tipId) => {
@@ -485,7 +486,8 @@ function App() {
         tip_id: tipId,
         name: comment.name,
         text: comment.text,
-        date: new Date().toISOString().split('T')[0]
+        date: new Date().toISOString().split('T')[0],
+        created_by_id: comment.createdById || null,
       })
       .select()
       .single()
@@ -498,6 +500,24 @@ function App() {
     setTips(prev => prev.map(tip =>
       tip.id === tipId
         ? { ...tip, comments: [...(tip.comments || []), data] }
+        : tip
+    ))
+  }
+
+  const editComment = async (tipId, commentId, updates) => {
+    const { error } = await supabase
+      .from('comments')
+      .update({ text: updates.text })
+      .eq('id', commentId)
+
+    if (error) {
+      console.error('Error editing comment:', error)
+      return
+    }
+
+    setTips(prev => prev.map(tip =>
+      tip.id === tipId
+        ? { ...tip, comments: (tip.comments || []).map(c => c.id === commentId ? { ...c, text: updates.text } : c) }
         : tip
     ))
   }
@@ -614,20 +634,22 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="registry" element={<Registry items={registryItems} claimItem={claimItem} unclaimItem={unclaimItem} />} />
-        <Route path="send-love" element={<SendLove cards={cards} addCard={addCard} deleteCard={deleteCard} />} />
+        <Route path="registry" element={<Registry items={registryItems} claimItem={claimItem} unclaimItem={unclaimItem} addRegistryItem={addRegistryItem} editRegistryItem={editRegistryItem} deleteRegistryItem={deleteRegistryItem} />} />
+        <Route path="send-love" element={<SendLove cards={cards} addCard={addCard} editCard={editCard} deleteCard={deleteCard} />} />
         <Route path="updates" element={<Updates />} />
         <Route 
           path="advice" 
           element={
             <Advice 
               tips={tips} 
-              addTip={addTip} 
+              addTip={addTip}
+              editTip={editTip}
               deleteTip={deleteTip}
               toggleLikeTip={toggleLikeTip} 
               toggleDislikeTip={toggleDislikeTip}
               userReactions={userReactions}
               addComment={addComment}
+              editComment={editComment}
               deleteComment={deleteComment}
               registryItems={registryItems} 
             />

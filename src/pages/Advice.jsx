@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, Send, Sparkles, ThumbsUp, ThumbsDown, Baby, ShoppingBag, Lightbulb, Heart, ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
+import { MessageCircle, Send, Sparkles, ThumbsUp, ThumbsDown, Baby, ShoppingBag, Lightbulb, Heart, ChevronDown, ChevronUp, Trash2, Pencil, X, Check } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import './Advice.css'
 
@@ -12,8 +12,8 @@ const categories = [
   { id: 'recommendations', label: 'Recommendations', icon: Lightbulb, emoji: '💡' },
 ]
 
-function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, addComment, deleteComment, deleteTip, registryItems }) {
-  const { requireAuth } = useAuth()
+function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userReactions, addComment, editComment, deleteComment, deleteTip, registryItems }) {
+  const { guest, isAdmin, requireAuth } = useAuth()
   const [activeCategory, setActiveCategory] = useState('all')
   const [showForm, setShowForm] = useState(false)
   const [expandedComments, setExpandedComments] = useState({})
@@ -27,6 +27,11 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
+  // Edit state
+  const [editingTip, setEditingTip] = useState(null)
+  const [editTipMessage, setEditTipMessage] = useState('')
+  const [editingComment, setEditingComment] = useState(null) // { tipId, commentId }
+  const [editCommentText, setEditCommentText] = useState('')
 
   const filteredTips = tips.filter(tip => 
     activeCategory === 'all' || tip.category === activeCategory
@@ -47,7 +52,8 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
       message: formData.message.trim(),
       likes: 0,
       dislikes: 0,
-      comments: []
+      comments: [],
+      createdById: guest?.id || null,
     })
 
     setFormData({ name: '', category: 'parenting', relatedItem: '', message: '' })
@@ -71,7 +77,8 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
     
     addComment(tipId, {
       name: input.name.trim(),
-      text: input.text.trim()
+      text: input.text.trim(),
+      createdById: guest?.id || null,
     })
     
     setCommentInputs(prev => ({
@@ -96,6 +103,40 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
       setDeleteConfirm(null)
     }
   }
+
+  // Edit tip handlers
+  const handleStartEditTip = (tip) => {
+    setEditingTip(tip.id)
+    setEditTipMessage(tip.message)
+  }
+
+  const handleSaveEditTip = (tipId) => {
+    if (editTipMessage.trim()) {
+      editTip(tipId, { message: editTipMessage.trim() })
+    }
+    setEditingTip(null)
+    setEditTipMessage('')
+  }
+
+  // Edit comment handlers
+  const handleStartEditComment = (tipId, comment) => {
+    setEditingComment({ tipId, commentId: comment.id })
+    setEditCommentText(comment.text)
+  }
+
+  const handleSaveEditComment = () => {
+    if (editingComment && editCommentText.trim()) {
+      editComment(editingComment.tipId, editingComment.commentId, { text: editCommentText.trim() })
+    }
+    setEditingComment(null)
+    setEditCommentText('')
+  }
+
+  // Permission helpers
+  const canDeleteTip = (tip) => isAdmin || (guest && tip.created_by_id === guest.id)
+  const canEditTip = (tip) => guest && tip.created_by_id === guest.id
+  const canDeleteComment = (comment) => isAdmin || (guest && comment.created_by_id === guest.id)
+  const canEditComment = (comment) => guest && comment.created_by_id === guest.id
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -182,13 +223,24 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
                       </span>
                       <div className="tip-header-right">
                         <span className="tip-date">{formatDate(tip.date)}</span>
-                        <button 
-                          className="delete-tip-btn"
-                          onClick={() => setDeleteConfirm(tip.id)}
-                          title="Delete tip"
-                        >
-                          <Trash2 size={14} />
-                        </button>
+                        {canEditTip(tip) && (
+                          <button 
+                            className="edit-tip-btn"
+                            onClick={() => handleStartEditTip(tip)}
+                            title="Edit tip"
+                          >
+                            <Pencil size={13} />
+                          </button>
+                        )}
+                        {canDeleteTip(tip) && (
+                          <button 
+                            className="delete-tip-btn"
+                            onClick={() => setDeleteConfirm(tip.id)}
+                            title="Delete tip"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        )}
                       </div>
                     </div>
 
@@ -199,7 +251,31 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
                       </div>
                     )}
 
-                    <p className="tip-message">{tip.message}</p>
+                    {/* Tip message — editable or static */}
+                    {editingTip === tip.id ? (
+                      <div className="tip-edit-inline">
+                        <textarea
+                          className="tip-edit-textarea"
+                          value={editTipMessage}
+                          onChange={(e) => setEditTipMessage(e.target.value)}
+                          maxLength={500}
+                        />
+                        <div className="tip-edit-actions">
+                          <button className="btn btn-sm btn-secondary" onClick={() => setEditingTip(null)}>
+                            Cancel
+                          </button>
+                          <button 
+                            className="btn btn-sm btn-primary" 
+                            onClick={() => handleSaveEditTip(tip.id)}
+                            disabled={!editTipMessage.trim()}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="tip-message">{tip.message}</p>
+                    )}
 
                     <div className="tip-footer">
                       <span className="tip-author">— {tip.name}</span>
@@ -249,14 +325,52 @@ function Advice({ tips, addTip, toggleLikeTip, toggleDislikeTip, userReactions, 
                                   <div className="comment-header">
                                     <span className="comment-author">{comment.name}</span>
                                     <span className="comment-date">{formatDate(comment.date)}</span>
-                                    <button 
-                                      className="delete-comment-btn"
-                                      onClick={() => deleteComment(tip.id, comment.id)}
-                                    >
-                                      <Trash2 size={12} />
-                                    </button>
+                                    <div className="comment-actions">
+                                      {canEditComment(comment) && (
+                                        <button 
+                                          className="edit-comment-btn"
+                                          onClick={() => handleStartEditComment(tip.id, comment)}
+                                          title="Edit"
+                                        >
+                                          <Pencil size={11} />
+                                        </button>
+                                      )}
+                                      {canDeleteComment(comment) && (
+                                        <button 
+                                          className="delete-comment-btn"
+                                          onClick={() => deleteComment(tip.id, comment.id)}
+                                          title="Delete"
+                                        >
+                                          <Trash2 size={12} />
+                                        </button>
+                                      )}
+                                    </div>
                                   </div>
-                                  <p className="comment-text">{comment.text}</p>
+                                  {/* Comment text — editable or static */}
+                                  {editingComment?.commentId === comment.id ? (
+                                    <div className="comment-edit-inline">
+                                      <input
+                                        type="text"
+                                        className="comment-edit-input"
+                                        value={editCommentText}
+                                        onChange={(e) => setEditCommentText(e.target.value)}
+                                      />
+                                      <div className="comment-edit-actions">
+                                        <button className="comment-edit-cancel" onClick={() => setEditingComment(null)}>
+                                          <X size={14} />
+                                        </button>
+                                        <button 
+                                          className="comment-edit-save" 
+                                          onClick={handleSaveEditComment}
+                                          disabled={!editCommentText.trim()}
+                                        >
+                                          <Check size={14} />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <p className="comment-text">{comment.text}</p>
+                                  )}
                                 </div>
                               ))}
                             </div>
