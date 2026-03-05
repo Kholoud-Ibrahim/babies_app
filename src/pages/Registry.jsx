@@ -157,7 +157,7 @@ function Registry({ items, claimItem, unclaimItem, addRegistryItem, editRegistry
           <div className="section-title">
             <h2>Gift Registry 🎁</h2>
             <div className="section-divider"></div>
-            <p>Help us prepare for our twin boys! Every gift brings us closer to being ready for their arrival.</p>
+            <p>Help us prepare for Noah & Yousef! Every gift brings us closer to being ready for their arrival.</p>
           </div>
 
           {/* Stats */}
@@ -753,7 +753,7 @@ function Registry({ items, claimItem, unclaimItem, addRegistryItem, editRegistry
 
                 <p className="modal-note">
                   By claiming this item, you're letting others know you plan to purchase it. 
-                  You can unclaim it later if you change your mind. Thank you for your generosity! 💕
+                  You can unclaim it later if you change your mind. Thank you for your generosity! 💙
                 </p>
 
                 <div className="modal-actions">

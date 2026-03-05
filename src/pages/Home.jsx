@@ -35,7 +35,7 @@ function Home() {
     {
       icon: Gift,
       title: "Gift Registry",
-      description: "Browse our wishlist and help us prepare for the twins",
+      description: "Browse our wishlist and help us prepare for Noah & Yousef",
       link: "/registry",
       color: "blue"
     },
@@ -93,8 +93,8 @@ function Home() {
           </div>
           
           <h1 className="hero-title">
-            Welcome to Our<br />
-            <span className="gradient-text">Twin Boys'</span><br />
+            Welcome to<br />
+            <span className="gradient-text">Noah & Yousef's</span><br />
             Journey
           </h1>
           
@@ -125,7 +125,7 @@ function Home() {
           <div className="twins-illustration">
             <div className="baby-circle baby-1">
               <span>👶</span>
-              <div className="baby-label">Idris</div>
+              <div className="baby-label">Noah</div>
             </div>
             <div className="baby-circle baby-2">
               <span>👶</span>
@@ -150,7 +150,7 @@ function Home() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="countdown-container">
-            <h2 className="countdown-title">Meeting Our Champions In</h2>
+            <h2 className="countdown-title">Meeting Noah & Yousef In</h2>
             <div className="countdown-grid">
               <div className="countdown-item">
                 <span className="countdown-number">{timeLeft.days}</span>

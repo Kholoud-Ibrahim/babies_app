@@ -623,8 +623,8 @@ function App() {
     return (
       <div className="loading-screen">
         <div className="loading-content">
-          <span className="loading-emoji">🌸</span>
-          <p>Loading Twin Boys...</p>
+          <span className="loading-emoji">⭐</span>
+          <p>Loading Noah & Yousef...</p>
         </div>
       </div>
     )

@@ -5,15 +5,15 @@ import { useAuth } from '../context/AuthContext'
 import './SendLove.css'
 
 const cardTemplates = [
-  { id: 1, name: 'Rose Garden', bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', emoji: '🌹', textColor: '#8b4a5e' },
-  { id: 2, name: 'Soft Blush', bg: 'linear-gradient(135deg, #ffeef8 0%, #f8c8dc 100%)', emoji: '🌸', textColor: '#c17b8e' },
+  { id: 1, name: 'Ocean Breeze', bg: 'linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%)', emoji: '🌊', textColor: '#1e3a5f' },
+  { id: 2, name: 'Sky Blue', bg: 'linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 100%)', emoji: '☁️', textColor: '#0c4a6e' },
   { id: 3, name: 'Golden Hour', bg: 'linear-gradient(135deg, #fef9d7 0%, #d4a853 100%)', emoji: '✨', textColor: '#8b7355' },
-  { id: 4, name: 'Lavender Dreams', bg: 'linear-gradient(135deg, #e8dff5 0%, #c5b3e8 100%)', emoji: '💜', textColor: '#6b5b7a' },
+  { id: 4, name: 'Starlight', bg: 'linear-gradient(135deg, #e8dff5 0%, #c5b3e8 100%)', emoji: '💫', textColor: '#6b5b7a' },
   { id: 5, name: 'Mint Fresh', bg: 'linear-gradient(135deg, #e0f5e9 0%, #a8d5ba 100%)', emoji: '🌿', textColor: '#5a7d6a' },
-  { id: 6, name: 'Peachy Keen', bg: 'linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)', emoji: '🍑', textColor: '#8b6b5c' },
+  { id: 6, name: 'Teal Wave', bg: 'linear-gradient(135deg, #ccfbf1 0%, #5eead4 100%)', emoji: '⭐', textColor: '#134e4a' },
 ]
 
-const decorations = ['💕', '🎀', '👶', '🌸', '✨', '💝', '🦋', '🌈', '⭐', '🎁']
+const decorations = ['💙', '⭐', '👶', '✨', '🌊', '💫', '🦋', '🌈', '☁️', '🎁']
 
 function SendLove({ cards, addCard, editCard, deleteCard }) {
   const { guest, isAdmin, requireAuth } = useAuth()
@@ -22,7 +22,7 @@ function SendLove({ cards, addCard, editCard, deleteCard }) {
     senderName: guest?.name || '',
     message: '',
     template: cardTemplates[0],
-    decoration: '💕'
+    decoration: '💙'
   })
 
   // Auto-fill name when user logs in
@@ -60,7 +60,7 @@ function SendLove({ cards, addCard, editCard, deleteCard }) {
       senderName: guest?.name || '',
       message: '',
       template: cardTemplates[0],
-      decoration: '💕'
+      decoration: '💙'
     })
     setIsSubmitting(false)
 
@@ -405,7 +405,7 @@ function SendLove({ cards, addCard, editCard, deleteCard }) {
               exit={{ opacity: 0, y: 50 }}
             >
               <Sparkles size={20} />
-              Your card has been sent! Thank you for the love 💕
+              Your card has been sent! Thank you for the love 💙
             </motion.div>
           )}
         </AnimatePresence>

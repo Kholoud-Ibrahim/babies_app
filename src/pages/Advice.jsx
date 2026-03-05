@@ -7,8 +7,8 @@ import './Advice.css'
 const categories = [
   { id: 'all', label: 'All Tips', icon: Sparkles, emoji: '✨' },
   { id: 'registry', label: 'Registry Items', icon: ShoppingBag, emoji: '🛒' },
-  { id: 'twins', label: 'Twin Tips', icon: Baby, emoji: '👶👶' },
-  { id: 'parenting', label: 'Parenting', icon: Heart, emoji: '💝' },
+  { id: 'twins', label: 'Tips for Two', icon: Baby, emoji: '👶👶' },
+  { id: 'parenting', label: 'Parenting', icon: Heart, emoji: '💙' },
   { id: 'recommendations', label: 'Recommendations', icon: Lightbulb, emoji: '💡' },
 ]
 
@@ -169,7 +169,7 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
         >
           <h2>Advice & Tips 💡</h2>
           <div className="section-divider"></div>
-          <p>Share your wisdom! Help us navigate the wonderful world of twin parenting with your tips and recommendations.</p>
+          <p>Share your wisdom! Help us navigate the wonderful world of parenting Noah & Yousef with your tips and recommendations.</p>
         </motion.div>
 
         {/* Action Bar */}
@@ -462,7 +462,7 @@ function Advice({ tips, addTip, editTip, toggleLikeTip, toggleDislikeTip, userRe
                     <Lightbulb size={24} />
                     Share Your Wisdom
                   </h3>
-                  <p>Your tips will help us prepare for our twins!</p>
+                  <p>Your tips will help us prepare for Noah & Yousef!</p>
                 </div>
 
                 <form onSubmit={handleSubmit}>
