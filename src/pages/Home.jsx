@@ -227,7 +227,7 @@ function Home() {
           </div>
           <span className="quote-mark">"</span>
           <blockquote>
-            Idris and Yousef, you are coming into a family<br />
+            Noah and Yousef, you are coming into a family<br />
             who will always love you unconditionally, celebrate you,<br />
             protect you, and make sure you are always safe.
           </blockquote>
@@ -249,7 +249,7 @@ function Home() {
               <img src="/images/pancake.jpeg" alt="Pancake" />
             </div>
             <blockquote>
-              Idris and Yousef, I am over the moon to have brothers
+              Noah and Yousef, I am over the moon to have brothers
               to play with me and throw the ball to me all day.
               I will always play with you and bring you so much joy,
               and we will always be best friends.
