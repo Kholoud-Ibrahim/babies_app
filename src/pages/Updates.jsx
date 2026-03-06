@@ -44,6 +44,24 @@ We never really understood where the "4th D" comes from 😄, but it was the fir
 
 We have one polite baby,
 and one professional belly-dancer baby, kicking away nonstop 💃💛`
+  },
+  {
+    week: 20,
+    date: "11 February 2026",
+    images: ["/images/scans/week20-t1.jpeg", "/images/scans/week20-t2.jpeg"],
+    content: `This was the big scan — the one where we checked your hearts, kidneys, and tiny little limbs. Everything looked perfect and healthy. Aaaah that was also the moment we discovered that we are actually having two boys, not two girls 😄😄
+
+It was a little shock to us at first. For so long we had pictured our life with twin girls, and it took us a moment to let that picture go — but only for a moment.
+
+Very quickly we remembered how incredibly blessed we are to have you. Two healthy little boys growing together. And we would not replace you for the world. 💙💙`
+  },
+  {
+    week: 22,
+    date: "25 February 2026",
+    images: ["/images/scans/week22-t1.jpeg", "/images/scans/week22_t2.jpeg"],
+    content: `YES you are two boys, clear and strong 😄
+
+Growing a few grams every week and features are much more clearer now. Also we were told that both of you are too cheeky and moving loads! 💪👶👶`
   }
 ]
 
