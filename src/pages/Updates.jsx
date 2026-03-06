@@ -7,11 +7,11 @@ const milestones = [
     week: 6,
     date: "12 November 2025",
     images: ["/images/scans/week6.jpeg"],
-    content: `In this scan, we didn't even know Noah and Yousef existed yet.
+    content: `In this scan, we didn't even know there were two of you yet.
     
 We couldn't see much — just a tiny beating heart — but it was incredibly reassuring for us.
 
-Knowing that they were there and doing fine meant everything to us.`
+Knowing that you were there and doing fine meant everything to us.`
   },
   {
     week: 10,
@@ -21,9 +21,9 @@ Knowing that they were there and doing fine meant everything to us.`
 
 "You have two babies."
 
-That's when we found out about Noah and Yousef.
+That's when we found out you were two little, beautiful babies.
 
-We were a bit shocked and stressed at first, but above all, we were so grateful and incredibly happy to have them both 🤍`
+We were a bit shocked and stressed at first, but above all, we were so grateful and incredibly happy to have you both 🤍`
   },
   {
     week: 13,
@@ -31,10 +31,10 @@ We were a bit shocked and stressed at first, but above all, we were so grateful 
     images: ["/images/scans/week13.jpeg"],
     content: `This is when we did the 4D scan in Cairo.
 
-We never really understood where the "4th D" comes from 😄, but it was the first time we learned that:
+We never really understood where the "4th D" comes from 😄, but it was the first time we learned that we were having:
 
-• Noah is the very cheeky, dancing one
-• and Yousef is the very cute, calm, and polite one`
+• one very cheeky, dancing baby
+• and one very cute, calm, and polite baby`
   },
   {
     week: 15,
@@ -42,8 +42,8 @@ We never really understood where the "4th D" comes from 😄, but it was the fir
     images: ["/images/scans/week15_t1.jpeg", "/images/scans/week15_t2.jpeg"],
     content: `By this point, we were certain:
 
-Yousef is the polite one,
-and Noah is the professional belly-dancer, kicking away nonstop 💃💛`
+We have one polite baby,
+and one professional belly-dancer baby, kicking away nonstop 💃💛`
   }
 ]
 
