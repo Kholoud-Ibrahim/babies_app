@@ -62,6 +62,17 @@ Very quickly we remembered how incredibly blessed we are to have you. Two health
     content: `YES you are two boys, clear and strong 😄
 
 Growing a few grams every week and features are much more clearer now. Also we were told that both of you are too cheeky and moving loads! 💪👶👶`
+  },
+  {
+    id: "until-birth",
+    weekLabel: "Till we meet you boys",
+    date: "Ongoing till birth",
+    images: [],
+    content: `From then on, you were checked every two weeks — and every time, you were beautiful, healthy, and full of energy.
+
+As you grew bigger and bigger, it got harder to capture you both in one shot — so this time we only managed a single little 2D picture, the one we put in a frame. Even that one photo was enough to remind us how lucky we are.
+
+Till we meet you boys. 💙💙`
   }
 ]
 
@@ -84,7 +95,7 @@ function Updates() {
         <div className="journey-timeline">
           {milestones.map((milestone, index) => (
             <motion.div 
-              key={milestone.week}
+              key={milestone.id ?? milestone.week}
               className="timeline-item"
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -102,20 +113,27 @@ function Updates() {
               {/* Content card */}
               <div className="timeline-content">
                 <div className="timeline-header">
-                  <span className="week-badge">Week {milestone.week}</span>
+                  <span className="week-badge">
+                    {milestone.weekLabel ?? `Week ${milestone.week}`}
+                  </span>
                   <span className="timeline-date">
                     <Calendar size={14} />
                     {milestone.date}
                   </span>
                 </div>
 
-                <div className={`timeline-images ${milestone.images.length > 1 ? 'double' : 'single'}`}>
-                  {milestone.images.map((img, imgIndex) => (
-                    <div key={imgIndex} className="scan-image">
-                      <img src={img} alt={`Week ${milestone.week} scan ${imgIndex + 1}`} />
-                    </div>
-                  ))}
-                </div>
+                {milestone.images.length > 0 && (
+                  <div className={`timeline-images ${milestone.images.length > 1 ? 'double' : 'single'}`}>
+                    {milestone.images.map((img, imgIndex) => (
+                      <div key={imgIndex} className="scan-image">
+                        <img
+                          src={img}
+                          alt={`${milestone.weekLabel ?? `Week ${milestone.week}`} scan ${imgIndex + 1}`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <div className="timeline-text">
                   {milestone.content.split('\n').map((paragraph, pIndex) => (
@@ -126,21 +144,6 @@ function Updates() {
             </motion.div>
           ))}
         </div>
-
-        {/* Coming Soon Section */}
-        <motion.div 
-          className="coming-soon"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="coming-soon-content">
-            <span className="coming-soon-emoji">🌟</span>
-            <h3>More Milestones Coming Soon!</h3>
-            <p>We'll be sharing more moments from our journey. Stay tuned!</p>
-          </div>
-        </motion.div>
       </div>
     </div>
   )
