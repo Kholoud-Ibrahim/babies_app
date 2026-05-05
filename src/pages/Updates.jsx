@@ -70,9 +70,7 @@ Growing a few grams every week and features are much more clearer now. Also we w
     images: [],
     content: `From then on, you were checked every two weeks — and every time, you were beautiful, healthy, and full of energy.
 
-As you grew bigger and bigger, it got harder to capture you both in one shot — so this time we only managed a single little 2D picture, the one we put in a frame. Even that one photo was enough to remind us how lucky we are.
-
-Till we meet you boys. 💙💙`
+As you grew bigger and bigger, it got harder to capture you in one frame — and you were moving all the time, so staying still for the camera hardly ever happened. That's it, then — till we meet you boys. 💙💙`
   }
 ]
 
